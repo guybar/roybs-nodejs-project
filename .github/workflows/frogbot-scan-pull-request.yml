@@ -25,9 +25,10 @@ jobs:
           JF_GIT_AGGREGATE_FIXES: "TRUE"
           JF_INCLUDE_ALL_VULNERABILITIES: "TRUE"          
           JF_FAIL: "FALSE" 
+          JF_PROJECT: "guy"
 
         # [Mandatory if using OIDC authentication protocol instead of JF_ACCESS_TOKEN]
         # Insert to oidc-provider-name the 'Provider Name' defined in the OIDC integration configured in the JPD
         with:
-          oidc-provider-name: "roybs-gh"
+          oidc-provider-name: "guy-github"
 
