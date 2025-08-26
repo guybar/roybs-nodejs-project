@@ -20,12 +20,13 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
         env:
           # JFrog platform url (for example: https://acme.jfrog.io)
-          JF_URL: ${{ vars.JF_URL }}  
+          JF_URL: ${{ vars.JF_URL }}
+          JF_PROJECT: guy
         with:
           oidc-provider-name: "guy-github"
 
       - name: NPM Config
-        run: jf npmc --server-id-resolve=setup-jfrog-cli-server --server-id-deploy=setup-jfrog-cli-server --repo-deploy ${{ vars.NPM_REPO }} --repo-resolve ${{ vars.NPM_REMOTE_REPO }} --global
+        run: jf npmc --server-id-resolve=setup-jfrog-cli-server --server-id-deploy=setup-jfrog-cli-server --repo-deploy ${{ vars.NPM_REPO }} --repo-resolve ${{ vars.NPM_REPO }} --global
         
       - name: Curation audit 
         run: |
@@ -34,7 +35,7 @@ jobs:
       - name: Docker build and push 
         env:
           JF_HOST: ${{ vars.JF_URL }}
-          JFROG_CLI_BUILD_PROJECT: roybs
+          # JFROG_CLI_BUILD_PROJECT: guy
         run: |
           docker build . -t ${{ vars.IMAGE_NAME }}:$GITHUB_RUN_NUMBER
           docker images
@@ -51,7 +52,7 @@ jobs:
           # Collect VCS details from git and add them to the build
           jf rt bag
           # Publish build info
-          jf rt bp ${{ vars.BUILD_NAME }} $GITHUB_RUN_NUMBER --project=roybs 
+          jf rt bp ${{ vars.BUILD_NAME }} $GITHUB_RUN_NUMBER 
 
       - name: Security Audit
         run: | 
@@ -59,6 +60,6 @@ jobs:
         
       - name: Scan Build
         run: | 
-          jf bs ${{ vars.BUILD_NAME }} $GITHUB_RUN_NUMBER --fail=false --vuln --format table --rescan  --project=roybs 
+          jf bs ${{ vars.BUILD_NAME }} $GITHUB_RUN_NUMBER --fail=false --vuln --format table --rescan 
 
           
