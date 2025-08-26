@@ -1,4 +1,4 @@
-FROM node:16.19.0
+FROM solenglatest/guy-docker-remote/node:16.19.0
 
 # Create app directory
 WORKDIR /usr/src/app
