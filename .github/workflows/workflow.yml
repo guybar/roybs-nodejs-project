@@ -22,7 +22,7 @@ jobs:
           # JFrog platform url (for example: https://acme.jfrog.io)
           JF_URL: ${{ vars.JF_URL }}  
         with:
-          oidc-provider-name: "roybs-gh"
+          oidc-provider-name: "guy-github"
 
       - name: NPM Config
         run: jf npmc --server-id-resolve=setup-jfrog-cli-server --server-id-deploy=setup-jfrog-cli-server --repo-deploy ${{ vars.NPM_REPO }} --repo-resolve ${{ vars.NPM_REMOTE_REPO }} --global
