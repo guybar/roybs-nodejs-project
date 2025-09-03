@@ -24,22 +24,11 @@ jobs:
           JF_PROJECT: guy
         with:
           oidc-provider-name: "guy-github"
-
-      - name: NPM Config
-        run: jf npmc --server-id-resolve=setup-jfrog-cli-server --server-id-deploy=setup-jfrog-cli-server --repo-deploy ${{ vars.NPM_REPO }} --repo-resolve ${{ vars.NPM_REPO }} --global
-        
-      # - name: Curation audit 
-      #   run: |
-      #     jf curation-audit
           
       - name: Docker build and push 
-        env:
-          JF_HOST: ${{ vars.JF_URL }}
-          # JFROG_CLI_BUILD_PROJECT: guy
         run: |
           docker login "${{ env.DOCKER_REG_SRV }}" -u "${{ steps.jf.outputs.oidc-user }}" -p "${{ steps.jf.outputs.oidc-token }}"
-          jf docker build . -t ${{ vars.IMAGE_NAME }}:$GITHUB_RUN_NUMBER
-          docker tag ${{ vars.IMAGE_NAME }}:${{ github.run_number }} ${{ vars.DOCKER_REG_SRV }}/${{ vars.DOCKER_REPO }}/${{ vars.IMAGE_NAME }}:${{ github.run_number }}
+          jf docker build . -t ${{ vars.DOCKER_REG_SRV }}/${{ vars.DOCKER_REPO }}/${{ vars.IMAGE_NAME }}:${{ github.run_number }}
           jf docker push ${{ vars.DOCKER_REG_SRV }}/${{ vars.DOCKER_REPO }}/${{ vars.IMAGE_NAME }}:${{ github.run_number }} --build-name=${{ vars.BUILD_NAME }} --build-number=${{ github.run_number }}
 
       - name: Collect and Publish Build Info
@@ -50,10 +39,6 @@ jobs:
           jf rt bag
           # Publish build info
           jf rt bp ${{ vars.BUILD_NAME }} $GITHUB_RUN_NUMBER 
-
-      - name: Security Audit
-        run: | 
-          jf audit
         
       - name: Scan Build
         run: | 
