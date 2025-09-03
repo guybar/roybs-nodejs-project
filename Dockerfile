@@ -1,5 +1,5 @@
-# FROM solenglatest.jfrog.io/guy-docker-dev/node:16.19.0
-FROM node:16.19.0
+FROM solenglatest.jfrog.io/guy-docker-dev/node:16.19.0
+# FROM node:16.19.0
 
 # Create app directory
 WORKDIR /usr/src/app
