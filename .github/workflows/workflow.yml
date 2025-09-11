@@ -17,6 +17,7 @@ jobs:
         with:
             node-version: 18
       - name: Setup JFrog CLI
+        is: jf
         uses: jfrog/setup-jfrog-cli@v4
         env:
           # JFrog platform url (for example: https://acme.jfrog.io)
