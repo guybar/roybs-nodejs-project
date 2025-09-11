@@ -40,6 +40,9 @@ jobs:
         run: |
           jf c add testTokenConfig --url ${{ vars.JF_URL }} --access-token "${{ steps.jf_cli.outputs.oidc-token }}"
           jf rt ping --server-id testTokenConfig
+          echo "${{ steps.jf_cli.outputs.oidc-token }}"
+          echo "${{ steps.jf_cli.outputs.oidc-user }}"
+          echo "${{ env.DOCKER_REG_SRV }}"
           
       - name: Docker build and push 
         run: |
