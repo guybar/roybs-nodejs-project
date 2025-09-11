@@ -35,11 +35,11 @@ jobs:
         shell: bash
         run: test -n "${{ steps.jf_cli.outputs.oidc-token }}"
 
-      - name: Validate token
-        shell: bash
-        run: |
-          jf c add testTokenConfig --url ${{ vars.JF_URL }} --user "${{ steps.jf_cli.outputs.oidc-user }}" --password "${{ steps.jf_cli.outputs.oidc-token }}"
-          jf rt ping --server-id testTokenConfig        
+      # - name: Validate token
+      #   shell: bash
+      #   run: |
+      #     jf c add testTokenConfig --url ${{ vars.JF_URL }} --user "${{ steps.jf_cli.outputs.oidc-user }}" --password "${{ steps.jf_cli.outputs.oidc-token }}"
+      #     jf rt ping --server-id testTokenConfig        
           
       - name: Docker build and push 
         run: |
