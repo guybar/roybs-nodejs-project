@@ -17,7 +17,7 @@ jobs:
         with:
             node-version: 18
       - name: Setup JFrog CLI
-        is: jf
+        id: jf_cli
         uses: jfrog/setup-jfrog-cli@v4
         env:
           # JFrog platform url (for example: https://acme.jfrog.io)
@@ -28,7 +28,7 @@ jobs:
           
       - name: Docker build and push 
         run: |
-          docker login "${{ env.DOCKER_REG_SRV }}" -u "${{ steps.jf.outputs.oidc-user }}" -p "${{ steps.jf.outputs.oidc-token }}"
+          docker login "${{ env.DOCKER_REG_SRV }}" -u "${{ steps.jf_cli.outputs.oidc-user }}" -p "${{ steps.jf_cli.outputs.oidc-token }}"
           jf docker build . -t ${{ vars.DOCKER_REG_SRV }}/${{ vars.DOCKER_REPO }}/${{ vars.IMAGE_NAME }}:${{ github.run_number }}
           jf docker push ${{ vars.DOCKER_REG_SRV }}/${{ vars.DOCKER_REPO }}/${{ vars.IMAGE_NAME }}:${{ github.run_number }} --build-name=${{ vars.BUILD_NAME }} --build-number=${{ github.run_number }}
 
